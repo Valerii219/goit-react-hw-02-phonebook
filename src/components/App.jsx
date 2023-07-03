@@ -28,6 +28,12 @@ export class App extends Component  {
       
     })
   }
+  handleChangeFilter = (e)=>{
+    this.setState({
+      filter:e.target.value,
+      
+    })
+  }
 
   handleSubmit = (e)=>{
     e.preventDefault()
@@ -42,20 +48,21 @@ export class App extends Component  {
       number:number,
     }
 
-
-
-
     this.setState((prevState)=>{
       return{
         contacts:[...prevState.contacts, newContact],
         name:"",
         number:"",
       }
+
        })
+      
   }
 
   
   render(){
+    const normalizedFilter = this.state.filter.toLowerCase();
+    const newFilter =this.state.contacts.filter(contact => contact.name.toLowerCase().includes(normalizedFilter));
     return (
       <>
       <div
@@ -96,13 +103,21 @@ export class App extends Component  {
 </form>
 
 <h2>Contacts</h2>
+
+<label>Find contacts by name </label>
+<input type="text" 
+name="filter"
+onChange={this.handleChangeFilter}
+value={this.state.filter}
+/>
 <ul>
-{this.state.contacts.map((contact) => (
-  <li key={contact.id}>{contact.name}: {contact.number}</li>
-    ))}
+  {newFilter.map(({ id, name, number }) => (
+    <li key={id}>
+      {name}: {number}
+    </li>
+  ))}
 </ul>
-<h3>Find contacts by name</h3>
-<input type="text" />
+
 </div>
     </>
     );
