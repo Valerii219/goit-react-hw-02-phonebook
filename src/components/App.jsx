@@ -21,10 +21,25 @@ export class App extends Component  {
   handleChangeFilter = e => {
     this.setState({ filter:e.currentTarget.value });
   };
+  deleteContact = (contactId)=>{
+    this.setState(prevState =>(
+      {contacts:prevState.contacts.filter(contact=> contact.id !== contactId)
 
+      }
+    ))
+  } 
   handleAddContact = (newContact) => {
+    const sameContact = this.state.contacts.find(
+      (contact) => contact.name === newContact.name
+    );
+  
+    if (sameContact) {
+      alert(`${sameContact.name}  is already in contacts`);
+      return;
+    }
     this.setState((prevState) => ({
       contacts: [...prevState.contacts, newContact]
+
     }));
   
   }
@@ -34,13 +49,13 @@ export class App extends Component  {
     const newFilter =contacts.filter(contact => contact.name.toLowerCase().includes(filter.toLowerCase()));
 
     return (
-<>
+<div style={{padding: "35px"}}>
 <h2>Phonebook</h2>
 <ContactForm addContact ={this.handleAddContact}/>
 <h2>Contacts </h2>
 <Filter onChangeFilter={this.handleChangeFilter} filter={filter} />
-<ContactList contacts={newFilter}/>
-    </>
+<ContactList contacts={newFilter} onDeleteContact={this.deleteContact} />
+    </div>
     );
   }
   

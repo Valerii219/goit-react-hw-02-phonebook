@@ -1,5 +1,7 @@
 import { nanoid } from "nanoid";
+import css from "./ContactForm.module.css";
 const { Component } = require("react");
+
 
 class ContactForm extends Component{
     state = {
@@ -42,7 +44,9 @@ class ContactForm extends Component{
 render()
 {const { name, number } = this.state;
     return(
-        <form action="" onSubmit={this.handleSubmit}>
+    <form action="" onSubmit={this.handleSubmit}>
+    <div className={css.formInp}>
+      <label className={css.label}>Name</label>
     <input
     type="text"
     name="name"
@@ -52,17 +56,20 @@ render()
     onChange={this.handleChange}
     value={name}
 />
-<h2>Number</h2>
+
+<label className={css.label}>Number</label>
 <input type="tel"
   name="number"
+  
   pattern="\+?\d{1,4}?[ .\-\s]?\(?\d{1,3}?\)?[ .\-\s]?\d{1,4}[ .\-\s]?\d{1,4}[ .\-\s]?\d{1,9}"
   title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
   required
   onChange={this.handleChangeNumber}
     value={number}>
-
   </input>
-<button> Add contact</button>
+  <button className={css.btn}> Add contact</button>
+  </div>
+
 </form>
     )
 }
